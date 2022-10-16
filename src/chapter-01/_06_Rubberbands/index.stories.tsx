@@ -43,11 +43,9 @@ export function _06_Rubberbands() {
   )
 }
 
-const image = new Image()
-image.src = src
-
 function Canvas() {
   const ref = useRef<HTMLCanvasElement>(null)
+  const imageRef = useRef(new Image())
 
   const {
     rubberband,
@@ -61,8 +59,10 @@ function Canvas() {
     const canvas = ref.current
     const context = canvas.getContext('2d')!
 
+    imageRef.current.src = src
+
     const onloadImage = () => {
-      drawImage(context, image)
+      drawImage(context, imageRef.current)
     }
 
     const onmousedownCanvas = (e: MouseEvent) => {
@@ -87,13 +87,13 @@ function Canvas() {
       endRubberband(context)
     }
 
-    image.addEventListener('load', onloadImage)
+    imageRef.current.addEventListener('load', onloadImage)
     canvas.addEventListener('mousedown', onmousedownCanvas)
     window.addEventListener('mousemove', onmousemoveWindow)
     window.addEventListener('mouseup', onmouseupWindow)
 
     return () => {
-      image.removeEventListener('load', onloadImage)
+      imageRef.current.removeEventListener('load', onloadImage)
       canvas.removeEventListener('mousedown', onmousedownCanvas)
       window.removeEventListener('mousemove', onmousemoveWindow)
       window.removeEventListener('mouseup', onmouseupWindow)
@@ -106,7 +106,7 @@ function Canvas() {
     const context = canvas.getContext('2d')!
     context.clearRect(0, 0, context.canvas.width,
                             context.canvas.height)
-    drawImage(context, image)
+    drawImage(context, imageRef.current)
   }
 
   return (
