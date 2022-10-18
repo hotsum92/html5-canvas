@@ -6,7 +6,7 @@ export default {
   component: Canvas,
 }
 
-export function _07_ClockImage() {
+export function _07_ClockCapture() {
   return (
     <Canvas />
   )
